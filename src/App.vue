@@ -144,7 +144,7 @@ onMounted(() => {
     data.materials.custom = createShaderMaterial('custom', data.scene);
 
     // Create video textures
-    data.textures.video = new VideoTexture('video', BASE_URL + 'videos/dm_vector.mp4', data.scene, false,
+    data.textures.video = new VideoTexture('video', BASE_URL + 'videos/Tom and Jerry.mp4', data.scene, false,
                                            false, VideoTexture.BILINEAR_SAMPLINGMODE, 
                                            {autoUpdateTexture: true, autoPlay: true, loop: true, muted: true});
 
@@ -152,6 +152,9 @@ onMounted(() => {
     data.materials.blackwhite.setTexture('image', data.textures.video);
     data.materials.fisheye.setTexture('image', data.textures.video);
     data.materials.ripple.setTexture('image', data.textures.video);
+
+    data.materials.ripple.setFloat('time', 0);
+
     data.materials.toon.setTexture('image', data.textures.video);
     data.materials.custom.setTexture('image', data.textures.video);
 
@@ -182,11 +185,15 @@ onMounted(() => {
     // Assign triangle a material
     rect.material = data.materials.standard;
 
+    var startTime = Date.now();
+
     // Animation function - called before each frame gets rendered
     data.scene.onBeforeRenderObservable.add(() => {
         if (data.filter !== rect.material.name) {
             rect.material = data.materials[data.filter];
         }
+        var elapsedTime = (Date.now() - startTime) / 1000;
+        data.materials.ripple.setFloat('time', elapsedTime);
 
         if (data.textures[data.selected_texture] !== null) {
             data.materials[data.filter].setTexture('image', data.textures[data.selected_texture]);
