@@ -5,6 +5,7 @@ import { Engine } from '@babylonjs/core/Engines/engine';
 import { Scene } from '@babylonjs/core/scene';
 import { UniversalCamera } from '@babylonjs/core/Cameras/universalCamera';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+import { Vector2 } from '@babylonjs/core/Maths/math.vector';
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { VertexData } from '@babylonjs/core/Meshes/mesh.vertexData';
 import { ShaderMaterial } from '@babylonjs/core/Materials/shaderMaterial';
@@ -157,6 +158,7 @@ onMounted(() => {
 
     data.materials.toon.setTexture('image', data.textures.video);
     data.materials.custom.setTexture('image', data.textures.video);
+    data.materials.custom.setVector2('resolution', new Vector2(canvas.width, canvas.height));
 
     // Create simple rectangle model
     let rect = new Mesh('rect', data.scene);
